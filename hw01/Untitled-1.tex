@@ -1,0 +1,101 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+
+\title{CS6033 Assign No.1}
+\author{Minghe Yang }
+\date{February 2021}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+\begin{document}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}} 
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\maketitle
+
+\section{Introduction}
+There is a theory which states that if ever anyone discovers exactly what the Universe is for and why it is here, it will instantly disappear and be replaced by something even more bizarre and inexplicable.
+There is another theory which states that this has already happened.
+
+\section{Conclusion}
+``I always thought something was fundamentally wrong with the universe''
+\section{Conclusion}
+``I always thought something was fundamentally wrong with the universe''
+\section{Conclusion}
+``I always thought something was fundamentally wrong with the universe''
+
+\section{Recursive function}
+\maketitle{1.}
+
+$f(0,0) = 0$\\
+
+$f(1,0) = 0$\\
+
+$f(1,1) 
+    = g(f(1,0),1)
+    = g(0,1)
+    = S(g(0,0))
+    = S(0)
+    = 1$
+
+$f(2,1)
+    = g(f(2,0),2)
+    = g(0,2)
+    = S(g(0,1)) 
+    = S(1)
+    = 2$
+   
+$f(2,2) 
+    = g(f(2,1),2)
+    = g(g(f(2,0),2),2)
+    = g(2,2)
+    = S(g(2,1))$
+    
+    $= S(S(g(2,0)))
+    = S(S(2))
+    = 4$
+
+$f(2,3)
+    = g(f(2,2),2)
+    = g(g(f(2,1),2),2)
+    = g(g(g(f(2,0),2),2),2)$
+    
+    $= g(g(g(f(2,0),2),2),2)
+    = g(g(g(0,2),2),2)
+    = g(g(S(S(g(0,0))),2),2)$
+    
+    $= g(g(2,2),2)
+    = g(S(S(g(2,0))),2)
+    = g(4,2)$
+    
+    $= S(S(g(4,0)))
+    = S(S(4))
+    = 6$
+\\    
+\maketitle{2.}
+I believe that $f(x,y) = x*y$,pseudocode is:
+\begin{algorithm}
+\caption{multiply}
+\begin{algorithmic}[1]
+\Require $x,y$
+\Ensure $f(x,y)$
+\State 1
+\If {blabla}
+\State bla
+\EndIf 
+\State \Return 135
+\Function {$f$}{$x,y$}
+\EndFunction
+\end{algorithmic}
+
+\end{algorithm}
+
+
+
+
+
+
+\end{document}

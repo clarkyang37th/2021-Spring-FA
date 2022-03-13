@@ -1,0 +1,53 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{mathtools}
+
+\title{CS6033 Assign No.7}
+\author{Minghe Yang}
+\date{May 2021}
+
+\begin{document}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}} 
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\maketitle
+
+\section{Karger-Stein's Algorithm}
+\subsection*{1.1}
+Say that are $k$ edges cross the minimum cut $S^*$, so every remaining node have at least $k$ degree. So for $j$ iteration with $n$ nodes, at least $(n-j+1)$ edges in total. The probability of not choosing one of the $k$ edges will be:
+$\frac{n-j-1}{n-j+1}$.
+When $n < 6$, the probability will be 
+$(\frac{4}{6})*(\frac{3}{5})*(\frac{2}{4})*(\frac{1}{3}) = \frac{1}{15}$.
+\subsection*{1.2}
+Let $p_k$ be the probability that there's a path from the root to a leaf that doesn't fail.After each recursion the vertives shrink to $n/\sqrt{2}$.
+Using the equation above, we have:
+$p_{k+1} = 1-(1-p_k)^2 = p_k - \frac{1}{4}p_k^2$ 
+When $|G.V| <= 6$, the answer is $\frac{1}{15}$, just like what we did in question 1.
+\subsection*{1.3}
+We can conclude that:$p_k = \frac{4}{z_k +1}, p_{k+1} = \frac{4}{z_{k+1} +1}$, from the previous question, we can get:
+\\$z_0 = 4*15-1 = 59$.
+\\$\frac{4}{z_{k+1} +1} = \frac{4}{z_k +1}-\frac{1}{4}(\frac{4}{z_k +1})^2$
+\\$\frac{4}{z_{k+1} +1} = \frac{4(z_k +1)}{(z_k +1)^2}-\frac{4}{(z_k +1)^2}$
+\\$\frac{1}{z_{k+1} +1} = \frac{z_k}{(z_k+1)^2}
+\\z_{k_+1}+1=\frac{(z_k+1)^2}{z_k}
+\\z_{k+1} = z_k +1 + \frac{1}{z_k}
+$
+\subsection*{1.4}
+for $d = 2\log{n}$, which means $d= $the height of the tree:
+$p_{2\log{n}}\geq \frac{1}{2\log{n}+1}$,
+\\which means, Pr[Karger-Stein is successful]$ = \Omega (\frac{1}{log{n}})$
+\subsection*{2.1}
+Yes, there are two ways to solve like that.
+\\The first way, build another stack, if the current number is smaller then the top of the first stack, push it into the second stack, if retrieving is needed, just return the top element of the second stack.
+\\The second way is pretty like the Union find data structure that we've learned. For every unit in stack we store a previous smallest element. If a smaller number is pushed, refresh the second list. For retrieving, return the second list.
+\\Both of two algorithms are constant time complexity.
+\subsection*{2.2}
+1 second at maximum.\\
+Since the length of a ant could be neglected, reverse direction is equal to walk through each other, so the longest run should be one ant from one side of the cable to the other side, which is one second.
+(Seriously I don't believe any ant in the world could walk like that fast.)
+\end{document}

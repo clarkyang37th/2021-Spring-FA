@@ -1,0 +1,100 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{mathtools}
+
+\title{CS6033 Assign No.4}
+\author{Minghe Yang}
+\date{March 2021}
+
+\begin{document}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}} 
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\maketitle
+
+\section{Time vs. space}
+\maketitle{1.1}
+on NUDT Tianhe-2 calculating $2^{64}$:
+\begin{equation} 
+    \frac{2^{64}}{3386*10^{15}}=544.79 s
+\end{equation}
+on NUDT Tianhe-2 calculating $2^{80}$:
+\begin{equation} 
+    \frac{2^{80}}{3386*10^{15}}=35,703,357.44 s
+\end{equation}
+\\\\
+\maketitle{1.2}
+Normal cpmputers needed for $2^{64}$ in one day:
+\begin{equation} 
+    \frac{2^{64}}{3.8*10^9*24*60*60}=56185.26
+\end{equation}
+So 56186 laptop computers are needed.
+\\Normal cpmputers needed for $2^{80}$ in one month(30 days):
+\begin{equation} 
+    \frac{56185.26*2^{16}}{3.8*10^9*24*60*60*30}=1.22*10^8
+\end{equation}
+\\\\
+\maketitle{1.3}
+Hard drives needed for $2^{64}$:
+\begin{equation} 
+    \frac{2^{64}}{16*2^{40}}=1048576
+\end{equation}
+\\
+Hard drives needed for $2^{80}$:
+\begin{equation} 
+    1048576*2^{16} = 6.9*10^{10}
+\end{equation}
+\\\\
+\section{Critical thinking}
+\maketitle {2.}
+\\for the first few $i \leq k$, implement $n_i$ to the list.
+\\for $i \textgreater k$, roll a number d from $0$ to $i$, if$ d \in (1, k)$, replace the $d_{th}$ element with $n_i$.
+\\For the first set, the chance to keep in the list is $k/(k+1)*(k+1)/(k+2)*...*(n-1)/n=k/n$
+\\For the remaining set, the chance to get in the list will be $k/i*i/n = k/n$.
+\\\\
+\section{Algorithm and complexity}
+\maketitle {3.1}
+\\
+\begin{algorithm}
+    \caption{Layer sum detection}
+    \begin{algorithmic}[1]
+    \Require number of the layer i
+    \Ensure the sum of all inside units
+    \State \Return $3^{i-1}$
+    \end{algorithmic}
+\end{algorithm}
+\\\\
+\maketitle {3.2}
+the complexity is $O (1) $ since it's a constant.
+\clearpage
+\section{Clique problem}
+\maketitle {5.2}
+Given a graph and a clique of k vertices, for the worst situation it will cost you $O(n^2)$ to solve the question, with a right hint, you can solve it in polynomial time, so it is NP problem.
+\\\\
+\maketitle {5.3}
+\\What we need to do is to create a k clauses graph to represent this graph. 
+First we create $C_{j1}, C_{j2}, C_{j3}$ for every combination, and draw lines exactly like the original setting.
+\\Then we remove the nodes within every combination since we don't need them.
+\\ At last remove edges that join two vetices that are totally negate to others
+\\\\\maketitle {5.4}
+\\It's a NP complete question.
+\clearpage
+\section{IND-SET problem}
+\maketitle{6.2}
+\\An independent set is a set of vertices in a graph, no two of which are adjacent. It is a set of vertices such that for every two vertices in the graph, there is no edge connecting the two.
+\\\\\maketitle{6.3} 
+\\If you want to check it, the hardest solution should be $O(n^2)$ (check between every edge) while you can check it's correctness in polynomial time. 
+\\\\
+\maketitle{6.4}
+\\What we need to do with the original graph is 
+\\1.Draw all possible edges that are not in the original graph with a different color, so then every vertex is linked to others.
+\\2.Delete all the original edges.
+\\\\
+\maketitle{6.5} It is a NP-hard question.
+\\\\
+\end{document}

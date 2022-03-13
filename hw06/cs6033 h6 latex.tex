@@ -1,0 +1,104 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{mathtools}
+
+\title{CS6033 Assign No.6}
+\author{Minghe Yang}
+\date{April 2021}
+
+\begin{document}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}} 
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\maketitle
+
+\section{The partition problem}
+\maketitle {1.1}
+The Leibniz formula for the determinant of an $n * n$ matrix $A$ is decribed as follow:
+\begin{equation}
+    det(A) = \sum_{\sigma \in S_n}(sgn(\sigma)\prod_{i=1}^{n}a_{i\sigma (i)})
+\end{equation}
+Where $\prod$ is the set of all permutations of \{1,\dots, n\}.The sign$sgn(\sigma)$ of a permutation $\sigma$ is +1 for even and -1 for odd inverted pairs.\newline
+For this matrix A, the value of $\prod_{i=1}^{n}a_{i\sigma (i)}$ will be non-zero if and only if all terms are non-zero. Since the determinant is the sum of these terms, it follows that if det(A) is nonzero there must exist at least one perfect matching in G.
+But this leads to another situation: Even and odd situations(perfect matching) are same, so it'll still be zero with several perfect matching available.\newline
+Luckily in this question $a_{i, j}$ is changed to $X_{i, j}$ and are no longer bounded to 1 or 0. If $X_{i, j}$ is random, if determinant of A is identically zero, we can confirm that each even or odd situations have one element equals to 0. So then we can confirm there is no perfect matching.
+\newline\maketitle {1.2}
+\begin{algorithm}
+    \caption{Randomized algorithm for perfect matching}
+    \begin{algorithmic}[1]
+    \Require Determinant A
+    \Ensure Perfect matching available or not
+    \State set $x_{ij}$ to be a number chosen uniformly at random from $\{1, . . . , n^2m\}$
+    \State compute $det(B)$
+    \State if $det(B) = 0$ repeat until confidence is above the desired threshold
+    \State else return perfect matching available
+    \end{algorithmic}
+\end{algorithm}
+\\
+\maketitle {1.3}
+The complexity of this algorithm is $O(kn^3)$($k$ for selected cases and $n^3$ for each determinant solving), the probility will be $Pr \leq \frac{d}{|S|}=\frac{d}{ld}=\frac{1}{l}$
+\newline\maketitle {1.4}
+The benefit for Randomized Algorithm is that it can reduce time complexity, while it probably can't give you an exact answer(definitely no or probably yes). Since deterministic polynomial time algorithms already exist, if you want an exact answer, better not to choose randomized algorithm.
+\section{Critical thinking}
+\maketitle {2.1}
+
+\begin{algorithm}
+    \caption{Middle node in one pass}
+    \begin{algorithmic}[1]
+    \Require Singely linked list LL
+    \Ensure Middle node slow
+    \Function{$M$}{$LL, k$}
+    \State slow = LL.head
+    \State fast = LL.head
+    \While{fast and fast.next}
+        \State slow = slow.next
+        \State fast = fast.next.next
+    \EndWhile \\
+    \Return slow
+    \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+\maketitle {2.2}
+\begin{algorithm}
+    \caption{Cycle detection}
+    \begin{algorithmic}[1]
+    \Require Singely linked list LL
+    \Ensure Whether this list contains a cycle or not
+    \Function{$Floyd$}{$LL, x_0$}
+    \State $tortoise$ = LL.head
+    \State $hare$ = LL.head
+    \While{tortoise != hare and hare != end of the list}
+        \State tortoise = tortoise.next
+        \State hare = hare.next.next
+    \EndWhile
+    \If {hare != end of the list} 
+            \Return There is no loop
+        \Else 
+            \Return There's a loop
+    \EndIf
+    \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+The complexity of this algorithm is $O(n)$.If there are n nodes, the slow pointer needs to travel within n steps before the fast pointer either meets the slow pointer or finds the end. That means you do O(n) work. 
+\section{The coupon collector desillusion}
+\maketitle {3.1}
+At least $n$ boxes are needed.\medskip\newline
+\maketitle {3.3}
+$p^i = \frac{n-i+1}{n}$, so $E(T) = E(t_1+t_2+t_3+t_4+\dots+t_n) 
+\\=\frac{1}{p_1}+\frac{1}{p_2}+\frac{1}{p_3}+\dots+\frac{1}{p_n}
+\\=\frac{n}{n}+\frac{n}{n-1}+\frac{n}{n-2}+\frac{n}{n-3}+\dots+\frac{n}{1}
+\\=n\cdot (\frac{1}{1}+\frac{1}{2}+\frac{1}{3}+\dots+\frac{1}{n})
+\\=n\cdot H_n.$
+Using the asymptotics of the harmonic numbers, we can get:
+\\$E(t)= n\cdot H_n = n\log{n}+\gamma n+\frac{1}{2}+O(\frac{1}{n})$
+So $E[t] = \Theta(n log n)$\medskip\newline 
+\maketitle {3.4}
+For example, first day you'll get one exactly different coupon, for the second day, different coupon chance will be $(n-1)/n$, after you collected 2nd coupon, the third chance will be $(n-2)/n$\dots, for the last coupon, the chance will be $1/n$.
+$t_i$ is time to collect the $i$-th coupon, and the probility of a new coupon will be $p_i = \frac{n-i+1}{n}$, Therefore, $t_i$ has geometric distribution with expectation:
+\\$\frac{1}{pi} = \frac{n}{n-i+1}$. So we have expectation of $E(T)$ from above. Then using the asymptotics of the harmonic numbers, we can get\\$E(t)= n\cdot H_n = n\log{n}+\gamma n+\frac{1}{2}+O(\frac{1}{n})$. \\Since $n\log{n}$ is the highest degree, we can conclude that $E[t] = \Theta(n log n)$
+\end{document}

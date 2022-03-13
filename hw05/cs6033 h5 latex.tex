@@ -1,0 +1,124 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{mathtools}
+
+\title{CS6033 Assign No.5}
+\author{Minghe Yang}
+\date{March 2021}
+
+\begin{document}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}} 
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\maketitle
+
+\section{The partition problem}
+\maketitle{1.2}
+Of course it is a bad example.
+For a list of $[3, 4, 5, 300]$ in $k = 3$ , the average will be 104, through this algorithm you'll get $[3, 4, 5]$, $[300]$, and an empty list, while the right answer should be $[3, 4]$, $[5]$, and $[300]$.
+\\\\
+\maketitle{1.3}
+For M(n, k), you have $n$elements with $(k-1)$ separations. F $n_{th}$ and $(n-1)_{th}$ element, what you need is to consider two situations.
+First: Compare $[t0]$ with $S(n-1, k-1)$. Second: Compare $[t0, t1] $with $S(n-1, k)$.
+If $n = k$ then everyone should be in a list, if $n < k$, return the biggest one since it's more likely to be an error. 
+\\\\
+\maketitle{1.4}
+The complexity of this algorithm is exponential,like $O(n^k)$ for all possibilities.
+\\\\
+\maketitle{1.5}
+For some sub branches like those in FiboFibonacci, the one with same n, k, but different arrangements of the formal elements. like the same S(4,2) which refers to keep rest 4 elements in two lists.
+\\\\
+\clearpage
+\maketitle{1.6}
+\begin{algorithm}
+    \caption{DP Linear partition problem}
+    \begin{algorithmic}[1]
+    \Require A given arrangement S of nonnegative numbers $[s1, . . . , sn]$ and an integer $k$.
+    \Ensure Partition $S$ into $k$ ranges, so as to minimize the maximum sum over all the ranges.    
+    \Function{$M$}{$S, k$}
+    \State $M[1, k] = s1$
+    \State $M[n, 1] = \sum_{n=1}^n s_i$
+    \State $M[n, k] = \min_{n=1}^n\max(M[i, k-1], \sum_{j=i+1}^n S_j)$
+    \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+\\\\
+\maketitle{1.7}
+Let's start with the base case, from the definition we can surely know the $M[1,k]$ and $M[n, 1]$ is correct.
+As for $M[n, k] = \min_{n=1}^n\max(M[i, k-1], \sum_{j=i+1}^n S_j)$, it is the minimum of all the maximum cost of their sub Ms, so it is actually correct.
+\\\\
+\maketitle{1.8}
+It is the number of cells times the running time per cell.
+A total of k · n cells exist in the table.
+For the worst case you need to compute j from 1 to n, so the total complexity will be $O(kn^2)$
+\\\\
+\maketitle{1.9}
+You need to create another algorithm to test whether the $\max(M[i, k-1], \sum_{j=i+1}^n S_j)$ is equal to that cost, and print out every branches that is equal to the answer.
+\\\\
+\section{Critical thinking}
+\maketitle {2.}
+\\\\
+If n produce [0-4], then use double n rolls to produce 0-7.
+\\${[0,0],[0,1],[0,2]}$ for number $0$;
+\\${[0,3],[0,4],[1,0]}$ for number $1$;
+\\${[1,1],[1,2],[1,3]}$ for number $2$;
+\\${[1,4],[2,0],[2,1]}$ for number $3$;
+\\${[2,2],[2,3],[2,4]}$ for number $4$;
+\\${[3,0],[3,1],[3,2]}$ for number $5$;
+\\${[3,3],[3,4],[4,1]}$ for number $6$;
+\\${[4,1],[4,2],[4,3]}$ for number $7$;
+\\If you get $[4, 4]$ finally, just reroll it.
+Currently there's no restriction for n, it doesn't even need to be positive, if you get a negative n, just append "-" for it.
+\\\\
+\clearpage
+\section{Bellman-Ford algorithm}
+\maketitle {3.1}
+\\
+\begin{algorithm}
+    \caption{negative cycle detection}
+    \begin{algorithmic}[1]
+    \Require A directed weighted graph $G =<V, E>$, two vertices $s$ and $t$ 
+    \Ensure Check a negative cycle available or not
+    \State Do a regular Bellman-Ford Algorithm to judge all shortest paths for all vertices
+    \State Do another tmp judge for all vertices
+    \If{the shortest paths decrease for vertices}
+    \State \Return True
+    \Else  \Return False
+    \EndIf
+    \end{algorithmic}
+\end{algorithm}
+\clearpage
+\section{Wifi Network}
+\maketitle {5}
+\begin{algorithm}
+    \caption{connection algorithm}
+    \begin{algorithmic}[1]
+    \Require Location of k hotspots with range r and maximum load l, position of n clients
+    \Ensure Check whether all clients can connect to the Internet
+    \State List all cilents $[c_1, c_2, \dots, c_n]$ and all hotspots $[h_1, h_2, \dots, h_k]$ as vertices in two seperate rows
+    \For{Every hotspot $h_i \in[h_1, h_2, \dots, h_k] $}
+        \For{Every client $c_j \in [c_1, c_2, \dots, c_n]$}
+            \If {$distance [h_i,c_j] \textless r$}
+            \State Add edge $[hi, c_j, 1]$
+            \EndIf
+        \EndFor
+    \EndFor
+    \State Add a vertex s that connect to all the clients with 1 capacity edges $(s->c_i)$
+    \State Add a vertex t that connect to all the hotspots with maximum capacity l edges each $(h_i->t)$
+    \State Apply Ford-Fulkerson algorithm to solve the maximum flow problem with the created graph
+    \State Make a cut including all $h_i$ and $t$ connection
+        \If{$capacity at minimum cut = n$}
+            \Return True
+        \Else
+            \Return False
+        \EndIf
+    \end{algorithmic}
+\end{algorithm}
+\\Proof: For every client, the input and output will be 1 if everyone is online. So the total flow will be$ n clients *1 =n$.Since every flow will be through that cut to get to t, so if the maximum flow is equal to n, then everyone's online.
+\\The worst case for it will be $O(n*k)$(the situation where all clients are connected to every hotspot).
+\end{document}
